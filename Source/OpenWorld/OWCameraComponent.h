@@ -35,6 +35,8 @@ public:
 public:
 	void SetControlMode(EControlMode eControlMode);
 	void Init(ACharacter* pCharacter, USpringArmComponent* pSpringArm, UCameraComponent* pCamera);
+	void Turn(float NewAxisValue);
+	void LookUp(float NewAxisValue);
 
 public:
 	/////////////////////////FOR CAMERA///////////////////////////////

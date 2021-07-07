@@ -71,3 +71,31 @@ void UOWCameraComponent::Init(ACharacter* pCharacter, USpringArmComponent* pSpri
 	SpringArm->SetRelativeRotation(FRotator(-15.0f, 0.0f, 0.0f));	
 }
 
+void UOWCameraComponent::Turn(float NewAxisValue)
+{
+	switch (CurrentControlMode)
+	{
+	case EControlMode::THIRD_PERSON:
+	{
+		Character->AddControllerYawInput(NewAxisValue);
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+void UOWCameraComponent::LookUp(float NewAxisValue)
+{
+	switch (CurrentControlMode)
+	{
+	case EControlMode::THIRD_PERSON:
+	{
+		Character->AddControllerPitchInput(NewAxisValue);
+	}
+	break;
+	default:
+		break;
+	}
+}
+
