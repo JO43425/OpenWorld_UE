@@ -4,6 +4,8 @@
 
 // Sets default values
 AOWCharacter::AOWCharacter()
+	:EnableToggleRun(true)
+	,IsSprint(false)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -35,6 +37,9 @@ void AOWCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AOWCharacter::LeftRight);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), OWCameraComponent, &UOWCameraComponent::Turn);
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), OWCameraComponent, &UOWCameraComponent::LookUp);
+	PlayerInputComponent->BindAction(TEXT("ToggleRun"), EInputEvent::IE_Pressed, this, &AOWCharacter::ToggleRun);
+	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &AOWCharacter::Sprint);
+	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &AOWCharacter::ReleaseSprint);
 }
 
 void AOWCharacter::UpDown(float NewAxisValue)
@@ -69,5 +74,36 @@ void AOWCharacter::LeftRight(float NewAxisValue)
 	default:
 		break;
 	}
+}
+
+void AOWCharacter::ToggleRun()
+{
+	EnableToggleRun = !EnableToggleRun;
+
+	ResetToggleRunSpeed();
+}
+
+void AOWCharacter::ResetToggleRunSpeed()
+{
+	if (EnableToggleRun)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = ToggleRunMaxSpeed;
+	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = ToggleRunMinSpeed;
+	}
+}
+
+void AOWCharacter::Sprint()
+{
+	IsSprint = true;
+	GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
+}
+
+void AOWCharacter::ReleaseSprint()
+{
+	IsSprint = false;
+	ResetToggleRunSpeed();
 }
 

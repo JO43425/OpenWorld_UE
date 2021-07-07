@@ -20,6 +20,10 @@ public:
 		END,
 	};
 
+	const float ToggleRunMinSpeed = 300.0f;
+	const float ToggleRunMaxSpeed = 600.0f;
+	const float SprintSpeed = 800.0f;
+
 public:
 	// Sets default values for this character's properties
 	AOWCharacter();
@@ -38,6 +42,10 @@ public:
 public:
 	void UpDown(float NewAxisValue);
 	void LeftRight(float NewAxisValue);
+	void ToggleRun();
+	void ResetToggleRunSpeed();
+	void Sprint();
+	void ReleaseSprint();
 
 public:
 	/////////////////////////FOR CAMERA///////////////////////////////
@@ -45,4 +53,9 @@ public:
 		UOWCameraComponent* OWCameraComponent;
 	///////////////////////////////////////////////////////////////////////
 
+protected:
+	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = Movement, Meta = (AllowPrivateAcess = true))
+		bool EnableToggleRun;
+	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = Movement, Meta = (AllowPrivateAcess = true))
+		bool IsSprint;
 };
