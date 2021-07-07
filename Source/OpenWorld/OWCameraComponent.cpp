@@ -99,3 +99,8 @@ void UOWCameraComponent::LookUp(float NewAxisValue)
 	}
 }
 
+UOWCameraComponent::EControlMode UOWCameraComponent::GetCurrentControlMode()
+{
+	return CurrentControlMode;
+}
+

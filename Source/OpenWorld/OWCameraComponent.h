@@ -37,6 +37,7 @@ public:
 	void Init(ACharacter* pCharacter, USpringArmComponent* pSpringArm, UCameraComponent* pCamera);
 	void Turn(float NewAxisValue);
 	void LookUp(float NewAxisValue);
+	EControlMode GetCurrentControlMode();
 
 public:
 	/////////////////////////FOR CAMERA///////////////////////////////

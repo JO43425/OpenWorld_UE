@@ -13,7 +13,7 @@ class OPENWORLD_API AOWCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-protected:
+public:
 	enum class EControlMode
 	{
 		THIRD_PERSON,
@@ -34,6 +34,10 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+public:
+	void UpDown(float NewAxisValue);
+	void LeftRight(float NewAxisValue);
 
 public:
 	/////////////////////////FOR CAMERA///////////////////////////////

@@ -31,7 +31,43 @@ void AOWCharacter::Tick(float DeltaTime)
 void AOWCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AOWCharacter::UpDown);
+	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AOWCharacter::LeftRight);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), OWCameraComponent, &UOWCameraComponent::Turn);
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), OWCameraComponent, &UOWCameraComponent::LookUp);
+}
+
+void AOWCharacter::UpDown(float NewAxisValue)
+{
+	GAME_CHECK(nullptr != OWCameraComponent);
+	UOWCameraComponent::EControlMode CurrentControlMode = OWCameraComponent->GetCurrentControlMode();
+
+	switch (CurrentControlMode)
+	{
+	case UOWCameraComponent::EControlMode::THIRD_PERSON:
+	{
+		AddMovementInput(FRotationMatrix(FRotator(0.0f, GetControlRotation().Yaw, 0.0f)).GetUnitAxis(EAxis::X), NewAxisValue);
+	}
+	break;
+	default:
+		break;
+	}
+}
+
+void AOWCharacter::LeftRight(float NewAxisValue)
+{
+	GAME_CHECK(nullptr != OWCameraComponent);
+	UOWCameraComponent::EControlMode CurrentControlMode = OWCameraComponent->GetCurrentControlMode();
+
+	switch (CurrentControlMode)
+	{
+	case UOWCameraComponent::EControlMode::THIRD_PERSON:
+	{
+		AddMovementInput(FRotationMatrix(FRotator(0.0f, GetControlRotation().Yaw, 0.0f)).GetUnitAxis(EAxis::Y), NewAxisValue);
+	}
+	break;
+	default:
+		break;
+	}
 }
 
