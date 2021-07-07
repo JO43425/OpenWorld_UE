@@ -14,6 +14,12 @@ AOWCharacter::AOWCharacter()
 	this->AddOwnedComponent(OWCameraComponent);
 	OWCameraComponent->Init(this, CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm")), CreateDefaultSubobject<UCameraComponent>(TEXT("Camera")));
 	OWCameraComponent->SetControlMode(UOWCameraComponent::EControlMode::THIRD_PERSON);
+
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> JUMP_MONTAGE(TEXT("/Game/Character/Knight/Animations/Jump_Montage"));
+	if (JUMP_MONTAGE.Succeeded())
+	{
+		JumpAnimationMontage = JUMP_MONTAGE.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -37,9 +43,26 @@ void AOWCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AOWCharacter::LeftRight);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), OWCameraComponent, &UOWCameraComponent::Turn);
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), OWCameraComponent, &UOWCameraComponent::LookUp);
+	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &AOWCharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("ToggleRun"), EInputEvent::IE_Pressed, this, &AOWCharacter::ToggleRun);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &AOWCharacter::Sprint);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &AOWCharacter::ReleaseSprint);
+}
+
+void AOWCharacter::Jump()
+{
+	Super::Jump();
+
+	GAME_CHECK(JumpAnimationMontage != nullptr);
+	PlayAnimMontage(JumpAnimationMontage);
+}
+
+void AOWCharacter::Landed(const FHitResult& Hit)
+{
+	Super::Jump();
+
+	GAME_CHECK(JumpAnimationMontage != nullptr);
+	PlayAnimMontage(JumpAnimationMontage, 1.0f, FName(TEXT("Land")));
 }
 
 void AOWCharacter::UpDown(float NewAxisValue)

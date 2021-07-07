@@ -39,6 +39,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void Jump() override;
+	virtual void Landed(const FHitResult& Hit) override;
+
 public:
 	void UpDown(float NewAxisValue);
 	void LeftRight(float NewAxisValue);
@@ -52,6 +55,8 @@ public:
 	UPROPERTY(VisibleAnyWhere, Category = Camera)
 		UOWCameraComponent* OWCameraComponent;
 	///////////////////////////////////////////////////////////////////////
+	UPROPERTY(VisibleAnyWhere, Category = Animation)
+		UAnimMontage* JumpAnimationMontage;
 
 protected:
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = Movement, Meta = (AllowPrivateAcess = true))
