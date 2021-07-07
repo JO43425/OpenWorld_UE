@@ -3,5 +3,6 @@
 #include "OpenWorld.h"
 #include "Modules/ModuleManager.h"
 
+DEFINE_LOG_CATEGORY(OpenWorld);
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, OpenWorld, "OpenWorld" );
  
