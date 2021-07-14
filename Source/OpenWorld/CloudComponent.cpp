@@ -2,6 +2,7 @@
 
 
 #include "CloudComponent.h"
+#include "Utill.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
 
 // Sets default values for this component's properties
@@ -11,6 +12,7 @@ UCloudComponent::UCloudComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 	TargetCloudOpacity = 0.f;
+	TargetGloomLevel = 0.f;
 	// ...
 }
 
@@ -40,15 +42,13 @@ float UCloudComponent::UpdateCloud(float CurrentCloudOpacity, const float RainCh
 		return CurrentCloudOpacity;
 	}
 
-	float diff = TargetCloudOpacity - CurrentCloudOpacity;
-
-	if (abs(diff) > 0.1f)
+	float CurrentGloomLevel;
+	if (MaterialParam->GetScalarParameterValue(FName(TEXT("Gloom")), CurrentGloomLevel))
 	{
-		float changeValue = (diff > 0.f) ? RainChangeRate * 1.0f : RainChangeRate * -1.0f;
-		CurrentCloudOpacity = CurrentCloudOpacity + changeValue;
-		MaterialParam->SetScalarParameterValue(FName(TEXT("Gloom")), CurrentCloudOpacity);
+		Utill::SetParameterByTargetedValue(CurrentGloomLevel, TargetGloomLevel, RainChangeRate,  MaterialParam, FName(TEXT("Gloom")));
 	}
 
+	CurrentCloudOpacity = Utill::SetParameterByTargetedValue(CurrentCloudOpacity, TargetCloudOpacity, RainChangeRate, MaterialParam);
 	return CurrentCloudOpacity;
 }
 

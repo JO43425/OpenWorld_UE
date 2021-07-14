@@ -31,4 +31,7 @@ public:
 public:
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = Cloud, Meta = (AllowPrivateAcess = true))
 	float TargetCloudOpacity;
+
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = Cloud, Meta = (AllowPrivateAcess = true))
+	float TargetGloomLevel;
 };

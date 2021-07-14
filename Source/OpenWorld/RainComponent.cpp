@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "Utill.h"
 #include "RainComponent.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
 
@@ -35,14 +35,8 @@ void URainComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 void URainComponent::UpdateRain(float DeltaTime, UMaterialParameterCollectionInstance* MaterialParam)
 {
 	GAME_CHECK(MaterialParam != nullptr);
-	float diff = TargetRainLevel - RainLevel;
 
-	if (abs(diff) > 0.1f)
-	{
-		float changeValue = (diff > 0.f) ? ChangeRate * 1.0f : ChangeRate * -1.0f;
-		RainLevel = RainLevel + changeValue;
-		MaterialParam->SetScalarParameterValue(FName(TEXT("RainLevel")), RainLevel);
-	}
+	Utill::SetParameterByTargetedValue(RainLevel, TargetRainLevel, ChangeRate, MaterialParam, FName(TEXT("RainLevel")));
 }
 
 void URainComponent::SetActiveRain(bool IsEnable)
