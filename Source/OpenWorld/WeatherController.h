@@ -3,6 +3,7 @@
 #pragma once
 
 #include "OpenWorld.h"
+#include "CloudComponent.h"
 #include "RainComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -32,6 +33,9 @@ public:
 public:
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = Component)
 		URainComponent* RainComponent;
+
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = Component)
+		UCloudComponent* CloudComponent;
 
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = MaterialParameter)
 		UMaterialParameterCollection* Global_MP;

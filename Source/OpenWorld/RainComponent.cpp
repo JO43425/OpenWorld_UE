@@ -10,7 +10,7 @@ URainComponent::URainComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
-	IsUpdate = false;
+	ChangeRate = 0.1f;
 }
 
 
@@ -34,38 +34,33 @@ void URainComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 
 void URainComponent::UpdateRain(float DeltaTime, UMaterialParameterCollectionInstance* MaterialParam)
 {
-	if (IsUpdate == false)
-	{
-		return;
-	}
-
 	GAME_CHECK(MaterialParam != nullptr);
-	RainLevel = RainLevel + ChangeRate;
+	float diff = TargetRainLevel - RainLevel;
 
-	if (RainLevel > 1.0f || RainLevel < 0.f)
+	if (abs(diff) > 0.1f)
 	{
-		IsUpdate = false;
+		float changeValue = (diff > 0.f) ? ChangeRate * 1.0f : ChangeRate * -1.0f;
+		RainLevel = RainLevel + changeValue;
+		MaterialParam->SetScalarParameterValue(FName(TEXT("RainLevel")), RainLevel);
 	}
-
-	MaterialParam->SetScalarParameterValue(FName(TEXT("RainLevel")), RainLevel);
 }
 
 void URainComponent::SetActiveRain(bool IsEnable)
 {
 	GAME_CHECK(RainParticle != nullptr);
 	GAME_CHECK(RainSound != nullptr);	
-	IsUpdate = true;
+
 	if (IsEnable)
 	{
 		RainParticle->Activate(true);
 		RainSound->Play();
-		ChangeRate = 0.1f;
+		TargetRainLevel = 0.9f;
 	}
 	else
 	{
 		RainParticle->Deactivate();
 		RainSound->Stop();
-		ChangeRate = -0.1f;
+		TargetRainLevel = 0.0f;
 	}
 }
 

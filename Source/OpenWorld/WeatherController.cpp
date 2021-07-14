@@ -11,6 +11,7 @@ AWeatherController::AWeatherController()
 	PrimaryActorTick.TickInterval = 1.0f;
 
 	RainComponent = CreateDefaultSubobject<URainComponent>(TEXT("RainComponent"));
+	CloudComponent = CreateDefaultSubobject<UCloudComponent>(TEXT("CloudComponent"));
 }
 
 // Called when the game starts or when spawned

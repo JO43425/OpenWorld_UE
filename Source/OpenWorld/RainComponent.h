@@ -36,11 +36,11 @@ public:
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = Rain, Meta = (AllowPrivateAcess = true))
 		float ChangeRate;
 
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = Rain, Meta = (AllowPrivateAcess = true))
+		float TargetRainLevel;
+
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = Rain)
 		UParticleSystemComponent* RainParticle;
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = Rain)
 		UAudioComponent* RainSound;
-
-protected:
-	bool IsUpdate;
 };
