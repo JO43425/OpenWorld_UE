@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "CharacterAnimInterface.h"
 #include "OWCameraComponent.h"
 #include "OpenWorld.h"
 #include "CoreMinimal.h"
@@ -23,6 +24,7 @@ public:
 	const float ToggleRunMinSpeed = 300.0f;
 	const float ToggleRunMaxSpeed = 600.0f;
 	const float SprintSpeed = 800.0f;
+	const float ToggleCrouchSpeed = 200.0f;
 
 public:
 	// Sets default values for this character's properties
@@ -49,6 +51,7 @@ public:
 	void ResetToggleRunSpeed();
 	void Sprint();
 	void ReleaseSprint();
+	void ToggleCrouch();
 
 public:
 	/////////////////////////FOR CAMERA///////////////////////////////

@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "OWCharacterAnimInstance.h"
 #include "OWCharacter.h"
 
 // Sets default values
@@ -47,6 +48,7 @@ void AOWCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction(TEXT("ToggleRun"), EInputEvent::IE_Pressed, this, &AOWCharacter::ToggleRun);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &AOWCharacter::Sprint);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &AOWCharacter::ReleaseSprint);
+	PlayerInputComponent->BindAction(TEXT("ToggleCrouch"), EInputEvent::IE_Pressed, this, &AOWCharacter::ToggleCrouch);
 }
 
 void AOWCharacter::Jump()
@@ -121,6 +123,9 @@ void AOWCharacter::ResetToggleRunSpeed()
 void AOWCharacter::Sprint()
 {
 	IsSprint = true;
+	auto AnimInstance = Cast< UOWCharacterAnimInstance>(GetMesh()->GetAnimInstance());
+	GAME_CHECK(AnimInstance);
+	AnimInstance->ToggleCrouch(false);
 	GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
 }
 
@@ -128,5 +133,23 @@ void AOWCharacter::ReleaseSprint()
 {
 	IsSprint = false;
 	ResetToggleRunSpeed();
+}
+
+void AOWCharacter::ToggleCrouch()
+{
+	auto AnimInstance = Cast< UOWCharacterAnimInstance>( GetMesh()->GetAnimInstance());
+	GAME_CHECK(AnimInstance);
+
+	bool Enable = !AnimInstance->GetIsCrouch();	
+	if (Enable)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = ToggleCrouchSpeed;
+	}
+	else
+	{
+		ResetToggleRunSpeed();
+	}
+	
+	AnimInstance->ToggleCrouch(Enable);
 }
 
