@@ -38,15 +38,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 	virtual void Jump() override;
 	virtual void Landed(const FHitResult& Hit) override;
 
 public:
-	void UpDown(float NewAxisValue);
-	void LeftRight(float NewAxisValue);
+	virtual void UpDown(float NewAxisValue);
+	virtual void LeftRight(float NewAxisValue);
 	void ToggleRun();
 	void ResetToggleRunSpeed();
 	void Sprint();
@@ -54,9 +51,6 @@ public:
 	void ToggleCrouch();
 
 public:
-	/////////////////////////FOR CAMERA///////////////////////////////
-	UPROPERTY(VisibleAnyWhere, Category = Camera)
-		UOWCameraComponent* OWCameraComponent;
 	///////////////////////////////////////////////////////////////////////
 	UPROPERTY(VisibleAnyWhere, Category = Animation)
 		UAnimMontage* JumpAnimationMontage;
