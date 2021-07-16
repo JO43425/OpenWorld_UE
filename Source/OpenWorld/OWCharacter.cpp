@@ -53,8 +53,12 @@ void AOWCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 void AOWCharacter::Jump()
 {
-	Super::Jump();
+	if (GetCharacterMovement()->IsFalling())
+	{
+		return;
+	}
 
+	Super::Jump();
 	GAME_CHECK(JumpAnimationMontage != nullptr);
 	PlayAnimMontage(JumpAnimationMontage);
 }
