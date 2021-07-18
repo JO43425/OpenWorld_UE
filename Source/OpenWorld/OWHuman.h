@@ -17,7 +17,13 @@ class OPENWORLD_API AOWHuman : public AOWCharacter
 public:
 	AOWHuman();
 
+protected:
+	virtual void BeginPlay() override;
+	virtual void BeginDestroy() override;
 public:
 	virtual void Tick(float DeltaTime) override;
-	
+
+protected:
+	UPROPERTY()
+		class AOWAIController* AIController;
 };

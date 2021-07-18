@@ -60,6 +60,16 @@ void AOWCharacter::LeftRight(float NewAxisValue)
 	AddMovementInput(FRotationMatrix(FRotator(0.0f, GetControlRotation().Yaw, 0.0f)).GetUnitAxis(EAxis::Y), NewAxisValue);
 }
 
+bool AOWCharacter::IsDead()
+{
+	return false;
+}
+
+float AOWCharacter::GetFinalAttackRange()
+{
+	return 0.0f;
+}
+
 void AOWCharacter::ToggleRun()
 {
 	EnableToggleRun = !EnableToggleRun;
@@ -81,10 +91,8 @@ void AOWCharacter::ResetToggleRunSpeed()
 
 void AOWCharacter::Sprint()
 {
-	IsSprint = true;
-	auto AnimInstance = Cast< UOWCharacterAnimInstance>(GetMesh()->GetAnimInstance());
-	GAME_CHECK(AnimInstance);
-	AnimInstance->ToggleCrouch(false);
+	ReleaseCrouch();
+	IsSprint = true;	
 	GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
 }
 
@@ -110,5 +118,26 @@ void AOWCharacter::ToggleCrouch()
 	}
 	
 	AnimInstance->ToggleCrouch(Enable);
+}
+
+void AOWCharacter::SetRun()
+{
+	ResetIdle();
+	EnableToggleRun = true;
+	ResetToggleRunSpeed();
+}
+
+void AOWCharacter::ReleaseCrouch()
+{
+	auto AnimInstance = Cast< UOWCharacterAnimInstance>(GetMesh()->GetAnimInstance());
+	GAME_CHECK(AnimInstance);
+	AnimInstance->ToggleCrouch(false);
+}
+
+void AOWCharacter::ResetIdle()
+{
+	EnableToggleRun = false;
+	ReleaseCrouch();
+	ReleaseSprint();
 }
 

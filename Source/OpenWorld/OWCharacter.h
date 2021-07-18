@@ -44,11 +44,17 @@ public:
 public:
 	virtual void UpDown(float NewAxisValue);
 	virtual void LeftRight(float NewAxisValue);
+	virtual bool IsDead();
+	virtual float GetFinalAttackRange();
+
 	void ToggleRun();
 	void ResetToggleRunSpeed();
 	void Sprint();
 	void ReleaseSprint();
 	void ToggleCrouch();
+	void SetRun();
+	void ReleaseCrouch();
+	void ResetIdle();
 
 public:
 	///////////////////////////////////////////////////////////////////////
