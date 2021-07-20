@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "OWCharacterAnimInstance.h"
 #include "OWCharacter.h"
+#include "OWCharacterAnimInstance.h"
 
 // Sets default values
 AOWCharacter::AOWCharacter()
@@ -10,19 +10,12 @@ AOWCharacter::AOWCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> JUMP_MONTAGE(TEXT("/Game/Character/Knight/Animations/Jump_Montage"));
 	if (JUMP_MONTAGE.Succeeded())
 	{
 		JumpAnimationMontage = JUMP_MONTAGE.Object;
 	}
-
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> EQUIP_S_MONTAGE(TEXT("/Game/Character/Knight/Sword/Unarmed_Equip_Over_Shoulder_Montage"));
-	if (EQUIP_S_MONTAGE.Succeeded())
-	{
-		EquipShoulderMontage = EQUIP_S_MONTAGE.Object;
-	}
-	IsEquiped.Init(false, (uint8)EWeaponSlot::END);
 }
 
 // Called when the game starts or when spawned
@@ -35,6 +28,12 @@ void AOWCharacter::BeginPlay()
 void AOWCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void AOWCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	OWAnim = Cast<UOWCharacterAnimInstance>(GetMesh()->GetAnimInstance());
 }
 
 void AOWCharacter::Jump()
@@ -150,6 +149,7 @@ void AOWCharacter::ResetIdle()
 
 void AOWCharacter::ToggleFirstWeapon()
 {
+	/*
 	IsEquiped[(uint8)EWeaponSlot::FIRST] = !IsEquiped[(uint8)EWeaponSlot::FIRST];	
 
 	if (IsEquiped[(uint8)EWeaponSlot::FIRST])
@@ -162,5 +162,6 @@ void AOWCharacter::ToggleFirstWeapon()
 		GAME_CHECK(EquipShoulderMontage != nullptr);
 		PlayAnimMontage(EquipShoulderMontage);
 	}
+	*/
 }
 

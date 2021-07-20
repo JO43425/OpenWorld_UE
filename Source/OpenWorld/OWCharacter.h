@@ -9,20 +9,6 @@
 #include "GameFramework/Character.h"
 #include "OWCharacter.generated.h"
 
-UENUM(BlueprintType)
-enum class EControlMode : uint8
-{
-	THIRD_PERSON,
-	END,
-};
-
-UENUM(BlueprintType)
-enum class EWeaponSlot : uint8
-{
-	FIRST,
-	END,
-};
-
 UCLASS()
 class OPENWORLD_API AOWCharacter : public ACharacter
 {
@@ -45,7 +31,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	virtual void PostInitializeComponents() override;
 	virtual void Jump() override;
 	virtual void Landed(const FHitResult& Hit) override;
 
@@ -65,21 +51,21 @@ public:
 	void ReleaseCrouch();
 	void ResetIdle();
 	UFUNCTION(BlueprintCallable)
-	void ToggleFirstWeapon();
+	virtual void ToggleFirstWeapon();
 	///////////////////////////////////////////////////////////////////////
 
 public:
 	///////////////////////////////////////////////////////////////////////
 	UPROPERTY(VisibleAnyWhere, Category = Animation)
 		UAnimMontage* JumpAnimationMontage;
-	UPROPERTY(VisibleAnyWhere, Category = Animation)
-		UAnimMontage* EquipShoulderMontage;
 
 protected:
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = Movement, Meta = (AllowPrivateAcess = true))
 		bool EnableToggleRun;
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = Movement, Meta = (AllowPrivateAcess = true))
 		bool IsSprint;
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Movement, Meta = (AllowPrivateAcess = true))
-		TArray<bool> IsEquiped;
+	UPROPERTY(VisibleAnyWhere, Category = Weapon)
+		class AWeapon* CurrentWeapon;
+	UPROPERTY()
+		class UOWCharacterAnimInstance* OWAnim;
 };

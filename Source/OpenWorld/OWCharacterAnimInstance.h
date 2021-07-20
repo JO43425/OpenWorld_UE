@@ -8,6 +8,7 @@
 #include "Animation/AnimInstance.h"
 #include "OWCharacterAnimInstance.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(FOnEquipSocketChange);
 /**
  * 
  */
@@ -24,8 +25,14 @@ public:
 
 public:
 	bool GetIsCrouch();
-
+	void PlayEquipMontage();
+	FOnEquipSocketChange OnEquipSocketChange;
+private:
+	UFUNCTION()
+		void AnimNotify_EquipSocketChange();
 protected:
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = Movement, Meta = (AllowPrivateAcess = true))
 		bool IsCrouch;
+	UPROPERTY(EditAnywhere, Category = Animation)
+		UAnimMontage* EquipMontage;
 };

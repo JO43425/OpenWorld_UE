@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "CustomEnums.h"
+#include "CustomStructs.h"
 #include "CoreMinimal.h"
 #include "EngineMinimal.h"
 
