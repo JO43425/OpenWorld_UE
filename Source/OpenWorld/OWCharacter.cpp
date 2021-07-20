@@ -16,6 +16,13 @@ AOWCharacter::AOWCharacter()
 	{
 		JumpAnimationMontage = JUMP_MONTAGE.Object;
 	}
+
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> EQUIP_S_MONTAGE(TEXT("/Game/Character/Knight/Sword/Unarmed_Equip_Over_Shoulder_Montage"));
+	if (EQUIP_S_MONTAGE.Succeeded())
+	{
+		EquipShoulderMontage = EQUIP_S_MONTAGE.Object;
+	}
+	IsEquiped.Init(false, (uint8)EWeaponSlot::END);
 }
 
 // Called when the game starts or when spawned
@@ -139,5 +146,21 @@ void AOWCharacter::ResetIdle()
 	EnableToggleRun = false;
 	ReleaseCrouch();
 	ReleaseSprint();
+}
+
+void AOWCharacter::ToggleFirstWeapon()
+{
+	IsEquiped[(uint8)EWeaponSlot::FIRST] = !IsEquiped[(uint8)EWeaponSlot::FIRST];	
+
+	if (IsEquiped[(uint8)EWeaponSlot::FIRST])
+	{
+		GAME_CHECK(EquipShoulderMontage != nullptr);
+		PlayAnimMontage(EquipShoulderMontage);		
+	}
+	else
+	{
+		GAME_CHECK(EquipShoulderMontage != nullptr);
+		PlayAnimMontage(EquipShoulderMontage);
+	}
 }
 

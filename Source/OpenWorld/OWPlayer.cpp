@@ -23,6 +23,7 @@ void AOWPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &AOWCharacter::Sprint);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &AOWCharacter::ReleaseSprint);
 	PlayerInputComponent->BindAction(TEXT("ToggleCrouch"), EInputEvent::IE_Pressed, this, &AOWCharacter::ToggleCrouch);
+	PlayerInputComponent->BindAction(TEXT("ToggleFirstWeapon"), EInputEvent::IE_Pressed, this, &AOWCharacter::ToggleFirstWeapon);
 }
 
 void AOWPlayer::UpDown(float NewAxisValue)

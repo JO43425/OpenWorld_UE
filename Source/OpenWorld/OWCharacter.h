@@ -9,18 +9,26 @@
 #include "GameFramework/Character.h"
 #include "OWCharacter.generated.h"
 
+UENUM(BlueprintType)
+enum class EControlMode : uint8
+{
+	THIRD_PERSON,
+	END,
+};
+
+UENUM(BlueprintType)
+enum class EWeaponSlot : uint8
+{
+	FIRST,
+	END,
+};
+
 UCLASS()
 class OPENWORLD_API AOWCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	enum class EControlMode
-	{
-		THIRD_PERSON,
-		END,
-	};
-
 	const float ToggleRunMinSpeed = 300.0f;
 	const float ToggleRunMaxSpeed = 600.0f;
 	const float SprintSpeed = 800.0f;
@@ -47,6 +55,7 @@ public:
 	virtual bool IsDead();
 	virtual float GetFinalAttackRange();
 
+	//Toggle Actions
 	void ToggleRun();
 	void ResetToggleRunSpeed();
 	void Sprint();
@@ -55,15 +64,22 @@ public:
 	void SetRun();
 	void ReleaseCrouch();
 	void ResetIdle();
+	UFUNCTION(BlueprintCallable)
+	void ToggleFirstWeapon();
+	///////////////////////////////////////////////////////////////////////
 
 public:
 	///////////////////////////////////////////////////////////////////////
 	UPROPERTY(VisibleAnyWhere, Category = Animation)
 		UAnimMontage* JumpAnimationMontage;
+	UPROPERTY(VisibleAnyWhere, Category = Animation)
+		UAnimMontage* EquipShoulderMontage;
 
 protected:
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = Movement, Meta = (AllowPrivateAcess = true))
 		bool EnableToggleRun;
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = Movement, Meta = (AllowPrivateAcess = true))
 		bool IsSprint;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Movement, Meta = (AllowPrivateAcess = true))
+		TArray<bool> IsEquiped;
 };
